@@ -39,6 +39,40 @@ public class NeuralNetwork {
         return layers[layers.length - 1].neurons;
     }
 
+    public void backpropagation(int epochs, int batchSize, double[][] inputsToTarget, double[][] targets){
+        int samplesCount = inputsToTarget.length;
+        for (int i = 1; i < epochs; i++) {
+            int right = 0;
+            double errorSum = 0;
+            for (int j = 0; j < batchSize; j++) {
+                int sampleIndex = (int)(Math.random() * samplesCount);
+
+
+                double[] outputs = this.feedForward(inputsToTarget[sampleIndex]);
+                int maxOutValue = 0;
+                double maxOutWeight = -1;
+                int maxTargetValue = 0;
+                double maxTargetWeight = -1;
+                for (int k = 0; k < targets[0].length; k++) {
+                    if(outputs[k] > maxOutWeight) {
+                        maxOutWeight = outputs[k];
+                        maxOutValue = k;
+                    }
+                    if (outputs[k] > maxTargetWeight){
+                        maxTargetWeight = outputs[k];
+                        maxTargetValue = k;
+                    }
+                }
+                if(maxTargetValue == maxOutValue) right++;
+                for (int k = 0; k < targets[sampleIndex].length; k++) {
+                    errorSum += (targets[sampleIndex][k] - outputs[k]) * (targets[sampleIndex][k] - outputs[k]);
+                }
+                this.backpropagation(targets[sampleIndex]);
+            }
+            System.out.println("epoch:\t" + i + "\tcorrect:\t" + right + "\terror:\t" + errorSum);
+        }
+    }
+
     private void backpropagation(double[] targets) {
         double[] errors = new double[layers[layers.length - 1].size];
         for (int i = 0; i < layers[layers.length - 1].size; i++) {
