@@ -41,7 +41,7 @@ public class NeuralNetwork {
 
     public void backpropagation(int epochs, int batchSize, double[][] inputsToTarget, double[][] targets){
         int samplesCount = inputsToTarget.length;
-        for (int i = 1; i < epochs; i++) {
+        for (int i = 1; i <= epochs; i++) {
             int right = 0;
             double errorSum = 0;
             for (int j = 0; j < batchSize; j++) {
@@ -63,13 +63,14 @@ public class NeuralNetwork {
                         maxTargetValue = k;
                     }
                 }
-                if(maxTargetValue == maxOutValue) right++;
+                if(maxTargetValue == maxOutValue && Math.abs(maxOutWeight - maxTargetWeight) < 1e-3) right++;
                 for (int k = 0; k < targets[sampleIndex].length; k++) {
                     errorSum += (targets[sampleIndex][k] - outputs[k]) * (targets[sampleIndex][k] - outputs[k]);
                 }
                 this.backpropagation(targets[sampleIndex]);
             }
-            System.out.println("epoch:\t" + i + "\tcorrect:\t" + right + "\terror:\t" + errorSum);
+//            if (i % 100 == 0)
+                System.out.println("epoch:\t" + i + "\tcorrect:\t" + right + "\terror:\t" + errorSum);
         }
     }
 
