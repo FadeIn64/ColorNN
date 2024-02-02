@@ -25,6 +25,14 @@ public class TrainInput {
         normalizeData(target);
     }
 
+    public double[][] getInput() {
+        return input;
+    }
+
+    public double[][] getTarget() {
+        return target;
+    }
+
     private void normalizeData(double[][] data){
         for (int j = 0; j < data[0].length; j++){
 
@@ -33,7 +41,7 @@ public class TrainInput {
                 if(max < data[i][j])
                     max = data[i][j];
 
-            for (int i = 1; i < data.length; i++)
+            for (int i = 0; i < data.length; i++)
                 data[i][j] = data[i][j] / max;
         }
     }
@@ -88,5 +96,23 @@ public class TrainInput {
             throw new RuntimeException(e);
         }
         return res;
+    }
+
+    @Override
+    public String toString() {
+        String inputS = "Input:\n";
+        for (int i = 0; i < input.length; i++){
+            for (int j = 0; j < input[0].length; j++)
+                inputS += input[i][j] + "\t";
+            inputS += "\n";
+        }
+
+        String targetS = "Target:\n";
+        for (int i = 0; i < target.length; i++){
+            for (int j = 0; j < target[0].length; j++)
+                inputS += target[i][j] + "\t";
+            inputS += "\n";
+        }
+        return inputS + targetS;
     }
 }

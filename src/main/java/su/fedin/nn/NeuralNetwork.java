@@ -5,7 +5,7 @@ import java.util.function.UnaryOperator;
 public class NeuralNetwork {
 
     private double learningRate;
-    private Layer[] layers;
+    public Layer[] layers;
     private UnaryOperator<Double> activation;
     private UnaryOperator<Double> derivative;
 
@@ -53,17 +53,19 @@ public class NeuralNetwork {
                 double maxOutWeight = -1;
                 int maxTargetValue = 0;
                 double maxTargetWeight = -1;
-                for (int k = 0; k < targets[0].length; k++) {
+                for (int k = 0; k < outputs.length; k++) {
                     if(outputs[k] > maxOutWeight) {
                         maxOutWeight = outputs[k];
                         maxOutValue = k;
                     }
-                    if (outputs[k] > maxTargetWeight){
-                        maxTargetWeight = outputs[k];
+                }
+                for (int k = 0; k < targets[sampleIndex].length; k++) {
+                    if(targets[sampleIndex][k] > maxTargetWeight) {
+                        maxTargetWeight = targets[sampleIndex][k];
                         maxTargetValue = k;
                     }
                 }
-                if(maxTargetValue == maxOutValue && Math.abs(maxOutWeight - maxTargetWeight) < 1e-3) right++;
+                if(maxTargetValue == maxOutValue && Math.abs(maxOutWeight - maxTargetWeight) < 1e-2) right++;
                 for (int k = 0; k < targets[sampleIndex].length; k++) {
                     errorSum += (targets[sampleIndex][k] - outputs[k]) * (targets[sampleIndex][k] - outputs[k]);
                 }
