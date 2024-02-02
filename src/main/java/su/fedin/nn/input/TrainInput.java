@@ -20,6 +20,24 @@ public class TrainInput {
         this.name = name;
     }
 
+    public void normalizeData(){
+        normalizeData(input);
+        normalizeData(target);
+    }
+
+    private void normalizeData(double[][] data){
+        for (int j = 0; j < data[0].length; j++){
+
+            double max = data[0][j];
+            for (int i = 1; i < data.length; i++)
+                if(max < data[i][j])
+                    max = data[i][j];
+
+            for (int i = 1; i < data.length; i++)
+                data[i][j] = data[i][j] / max;
+        }
+    }
+
     public void loadData(){
         File dir = new File(pathToFolder);
         if (!dir.isDirectory())
