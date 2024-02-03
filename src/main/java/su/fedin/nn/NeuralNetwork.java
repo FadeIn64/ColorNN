@@ -70,15 +70,15 @@ public class NeuralNetwork {
                         maxTargetValue = k;
                     }
                 }
-                if(maxTargetValue == maxOutValue && Math.abs(maxOutWeight - maxTargetWeight) < 1e-2) right++;
+                if(maxTargetValue == maxOutValue && Math.abs(maxOutWeight - maxTargetWeight) < 1e-1) right++;
                 for (int k = 0; k < targets[sampleIndex].length; k++) {
                     errorSum += (targets[sampleIndex][k] - outputs[k]) * (targets[sampleIndex][k] - outputs[k]);
                 }
                 this.backpropagation(targets[sampleIndex]);
             }
-//          if (i % 100 == 0)
+          if (i % 100 == 0)
                 tracer.trace(i, right, errorSum);
-                System.out.println("epoch:\t" + i + "\tcorrect:\t" + right + "\terror:\t" + errorSum);
+          System.out.println("epoch:\t" + i + "\tcorrect:\t" + right + "\terror:\t" + errorSum);
         }
     }
 

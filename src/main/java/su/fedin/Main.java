@@ -18,7 +18,7 @@ public class Main {
 
         UnaryOperator<Double> sigmoid = x -> 1 / (1 + Math.exp(-x));
         UnaryOperator<Double> dsigmoid = y -> y * (1 - y);
-        NeuralNetwork nn = new NeuralNetwork(0.01, sigmoid, dsigmoid, 3, 45, 45, 15);
+        NeuralNetwork nn = new NeuralNetwork("Test",0.001, sigmoid, dsigmoid, 3, 30, 30, 15);
 
 //        double[] res = nn.feedForward(new double[]{0.6, 0.5, 0.9});
 //        Arrays.stream(res).forEach(x-> System.out.print(x + " "));
@@ -35,7 +35,7 @@ public class Main {
         trainInput.loadData();
         trainInput.normalizeData();
 
-        nn.backpropagation(500, 20, trainInput.getInput(), trainInput.getTarget());
+        nn.backpropagation(500000, 15, trainInput.getInput(), trainInput.getTarget());
 
         double[] res = nn.feedForward(new double[]{(double) 18 /255, (double) 103 /255, (double) 95 /255});
         int maxInd = 0;
@@ -44,7 +44,12 @@ public class Main {
         Arrays.stream(res).forEach(x-> System.out.print(x + " "));
         System.out.println();
         System.out.println(output[maxInd]);
+        
 
+
+    }
+
+    private static void jacksonTest(NeuralNetwork nn) {
         ObjectMapper om = new ObjectMapper();
         om.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
         String json;
@@ -54,12 +59,6 @@ public class Main {
             throw new RuntimeException(e);
         }
         System.out.println(json);
-        // System.out.println(trainInput);
-
-
-
-
-
     }
 
     private static void testNN(NeuralNetwork nn) {
