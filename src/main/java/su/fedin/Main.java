@@ -35,7 +35,7 @@ public class Main {
         trainInput.loadData();
         trainInput.normalizeData();
 
-        nn.backpropagation(500000, 15, trainInput.getInput(), trainInput.getTarget());
+        nn.backpropagation(5000, 15, trainInput.getInput(), trainInput.getTarget());
 
         double[] res = nn.feedForward(new double[]{(double) 18 /255, (double) 103 /255, (double) 95 /255});
         int maxInd = 0;
@@ -44,7 +44,8 @@ public class Main {
         Arrays.stream(res).forEach(x-> System.out.print(x + " "));
         System.out.println();
         System.out.println(output[maxInd]);
-        
+
+        nn.save();
 
 
     }
@@ -54,7 +55,7 @@ public class Main {
         om.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
         String json;
         try {
-            json = om.writeValueAsString(nn.layers[1]);
+            json = om.writeValueAsString(nn);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }

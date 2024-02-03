@@ -5,12 +5,11 @@ import java.util.function.UnaryOperator;
 public class NeuralNetwork {
 
 
-    private String name;
+    String name;
     private final double learningRate;
-    public Layer[] layers;
+    Layer[] layers;
     private UnaryOperator<Double> activation;
     private UnaryOperator<Double> derivative;
-    private Tracer tracer;
 
     public NeuralNetwork(String name, double learningRate, UnaryOperator<Double> activation, UnaryOperator<Double> derivative, int... layerSize) {
         this.name = name;
@@ -24,7 +23,6 @@ public class NeuralNetwork {
             layers[i] = new Layer(layerSize[i], nextSize);
             layers[i].generateRandomValues();
         }
-        tracer = new Tracer(name);
     }
 
     public double[] feedForward(double[] inputs) {
@@ -46,6 +44,7 @@ public class NeuralNetwork {
 
     public void backpropagation(int epochs, int batchSize, double[][] inputsToTarget, double[][] targets){
         int samplesCount = inputsToTarget.length;
+        Tracer tracer = Tracer.getTracer(this);
         for (int i = 1; i <= epochs; i++) {
             int right = 0;
             double errorSum = 0;
@@ -126,6 +125,11 @@ public class NeuralNetwork {
                 nextLayer.biases[i] += gradients[i];
             }
         }
+    }
+
+    //Наговнокодил из-за Майкла Джексона
+    public void save(){
+        Saver.saveNN(this);
     }
 
 }
