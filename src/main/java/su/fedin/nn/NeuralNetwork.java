@@ -4,12 +4,16 @@ import java.util.function.UnaryOperator;
 
 public class NeuralNetwork {
 
-    private double learningRate;
+
+    private String name;
+    private final double learningRate;
     public Layer[] layers;
     private UnaryOperator<Double> activation;
     private UnaryOperator<Double> derivative;
+    private Tracer tracer;
 
-    public NeuralNetwork(double learningRate, UnaryOperator<Double> activation, UnaryOperator<Double> derivative, int... layerSize) {
+    public NeuralNetwork(String name, double learningRate, UnaryOperator<Double> activation, UnaryOperator<Double> derivative, int... layerSize) {
+        this.name = name;
         this.learningRate = learningRate;
         this.activation = activation;
         this.derivative = derivative;
@@ -20,6 +24,7 @@ public class NeuralNetwork {
             layers[i] = new Layer(layerSize[i], nextSize);
             layers[i].generateRandomValues();
         }
+        tracer = new Tracer(name);
     }
 
     public double[] feedForward(double[] inputs) {
@@ -71,7 +76,8 @@ public class NeuralNetwork {
                 }
                 this.backpropagation(targets[sampleIndex]);
             }
-//            if (i % 100 == 0)
+//          if (i % 100 == 0)
+                tracer.trace(i, right, errorSum);
                 System.out.println("epoch:\t" + i + "\tcorrect:\t" + right + "\terror:\t" + errorSum);
         }
     }
