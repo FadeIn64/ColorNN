@@ -6,12 +6,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import su.fedin.nn.Activation;
 import su.fedin.nn.NeuralNetwork;
-import su.fedin.nn.input.TrainInput;
+import su.fedin.nn.train.TrainInput;
 
-import java.io.File;
 import java.util.Arrays;
-import java.util.function.UnaryOperator;
-import java.util.zip.ZipFile;
 
 public class Main {
     public static void main(String[] args) {

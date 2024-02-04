@@ -1,4 +1,4 @@
-package su.fedin.nn.input;
+package su.fedin.nn.train;
 
 import java.io.File;
 import java.io.FileNotFoundException;
