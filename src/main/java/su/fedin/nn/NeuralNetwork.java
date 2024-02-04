@@ -1,9 +1,17 @@
 package su.fedin.nn;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.function.UnaryOperator;
 
 public class NeuralNetwork {
 
+
+    public static NeuralNetwork load(String name){
+        Loader loader = Loader.getInstance();
+        return loader.load(name);
+    }
 
     String name;
     private final double learningRate;
@@ -11,6 +19,18 @@ public class NeuralNetwork {
 //    private UnaryOperator<Double> activation;
 //    private UnaryOperator<Double> derivative;
     Activation activation;
+
+    @JsonCreator
+    public NeuralNetwork(
+            @JsonProperty("name") String name,
+            @JsonProperty("learningRate") double learningRate,
+            @JsonProperty("layers")Layer[] layers,
+            @JsonProperty("activation") Activation activation) {
+        this.name = name;
+        this.learningRate = learningRate;
+        this.layers = layers;
+        this.activation = activation;
+    }
 
     public NeuralNetwork(String name, double learningRate, Activation activation,  int... layerSize) {
         this.name = name;

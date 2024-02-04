@@ -14,7 +14,6 @@ public class Main {
     public static void main(String[] args) {
         System.out.println("Hello world!");
 
-        NeuralNetwork nn = new NeuralNetwork("Test",0.001, Activation.SIGMOID, 3, 30, 30, 15);
 
 //        double[] res = nn.feedForward(new double[]{0.6, 0.5, 0.9});
 //        Arrays.stream(res).forEach(x-> System.out.print(x + " "));
@@ -26,12 +25,15 @@ public class Main {
                 "Желтый", "Зеленый", "Темно-зеленый", "Салатовый", "Синий", "Фиолетовый", "Голубой", "Темно-Синий"
         };
 
+//        NeuralNetwork nn = new NeuralNetwork("Test",0.001, Activation.SIGMOID, 3, 30, 30, 15);
+//
+//        TrainInput trainInput = new TrainInput("color");
+//        trainInput.loadData();
+//        trainInput.normalizeData();
+//
+//        nn.backpropagation(5000, 15, trainInput.getInput(), trainInput.getTarget());
 
-        TrainInput trainInput = new TrainInput("color");
-        trainInput.loadData();
-        trainInput.normalizeData();
-
-        nn.backpropagation(5000, 15, trainInput.getInput(), trainInput.getTarget());
+        NeuralNetwork nn = NeuralNetwork.load("Test");
 
         double[] res = nn.feedForward(new double[]{(double) 18 /255, (double) 103 /255, (double) 95 /255});
         int maxInd = 0;

@@ -1,5 +1,8 @@
 package su.fedin.nn;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Layer {
     public int size;
     public double[] neurons;
@@ -11,6 +14,18 @@ public class Layer {
         neurons = new double[size];
         biases = new double[size];
         weights = new double[size][nextSize];
+    }
+
+    @JsonCreator
+    public Layer(
+            @JsonProperty("size")int size,
+            @JsonProperty("neurons") double[] neurons,
+            @JsonProperty("biases") double[] biases,
+            @JsonProperty("weights") double[][] weights) {
+        this.size = size;
+        this.neurons = neurons;
+        this.biases = biases;
+        this.weights = weights;
     }
 
     void generateRandomValues(){
