@@ -8,14 +8,14 @@ public class NeuralNetwork {
     String name;
     private final double learningRate;
     Layer[] layers;
-    private UnaryOperator<Double> activation;
-    private UnaryOperator<Double> derivative;
+//    private UnaryOperator<Double> activation;
+//    private UnaryOperator<Double> derivative;
+    Activation activation;
 
-    public NeuralNetwork(String name, double learningRate, UnaryOperator<Double> activation, UnaryOperator<Double> derivative, int... layerSize) {
+    public NeuralNetwork(String name, double learningRate, Activation activation,  int... layerSize) {
         this.name = name;
         this.learningRate = learningRate;
         this.activation = activation;
-        this.derivative = derivative;
         layers = new Layer[layerSize.length];
         for (int i = 0; i < layerSize.length; i++) {
             int nextSize = 0;
@@ -36,7 +36,7 @@ public class NeuralNetwork {
                     nextLayer.neurons[j] += currentLayer.neurons[k] * currentLayer.weights[k][j];
                 }
                 nextLayer.neurons[j] += nextLayer.biases[j];
-                nextLayer.neurons[j] = activation.apply(nextLayer.neurons[j]);
+                nextLayer.neurons[j] = activation.activation.apply(nextLayer.neurons[j]);
             }
         }
         return layers[layers.length - 1].neurons;
@@ -92,7 +92,7 @@ public class NeuralNetwork {
 
             double[] gradients = new double[nextLayer.size];
             for (int i = 0; i < nextLayer.size; i++) {
-                gradients[i] = errors[i] * derivative.apply(nextLayer.neurons[i]);
+                gradients[i] = errors[i] * activation.derivative.apply(nextLayer.neurons[i]);
                 gradients[i] *= learningRate;
             }
 

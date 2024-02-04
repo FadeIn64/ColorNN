@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import su.fedin.nn.Activation;
 import su.fedin.nn.NeuralNetwork;
 import su.fedin.nn.input.TrainInput;
 
@@ -16,9 +17,7 @@ public class Main {
     public static void main(String[] args) {
         System.out.println("Hello world!");
 
-        UnaryOperator<Double> sigmoid = x -> 1 / (1 + Math.exp(-x));
-        UnaryOperator<Double> dsigmoid = y -> y * (1 - y);
-        NeuralNetwork nn = new NeuralNetwork("Test",0.001, sigmoid, dsigmoid, 3, 30, 30, 15);
+        NeuralNetwork nn = new NeuralNetwork("Test",0.001, Activation.SIGMOID, 3, 30, 30, 15);
 
 //        double[] res = nn.feedForward(new double[]{0.6, 0.5, 0.9});
 //        Arrays.stream(res).forEach(x-> System.out.print(x + " "));
